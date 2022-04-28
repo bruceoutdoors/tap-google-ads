@@ -56,12 +56,7 @@ def shuffle(shuffle_list, shuffle_key, current_value, sort_function):
 
 
 def do_sync(config, catalog, resource_schema, state):
-    # QA ADDED WORKAROUND [START]
-    try:
-        customers = json.loads(config["login_customer_ids"])
-    except TypeError:  # falling back to raw value
-        customers = config["login_customer_ids"]
-    # QA ADDED WORKAROUND [END]
+    customers = [{ 'loginCustomerId': None, 'customerId': x } for x in config['customer_ids'].split(',')]
     customers = sort_customers(customers)
 
     selected_streams = [
